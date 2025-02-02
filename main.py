@@ -1,20 +1,20 @@
 import mysql.connector
 
-
+#To Create database
 def Create_db():
     db = mysql.connector.connect(user='root', password='', host='localhost')
+#The try, except block checks if there is an already existing database 
     try:
         if db.is_connected():
             cur = db.cursor()
             Q = "CREATE DATABASE SHOP"
             cur.execute(Q)
             print("Db created")
-
     except:
         print("Already existing db")
     db.close()
 
-
+#To create the table
 def Create_tb():
     Tb_name = input("Enter table name to be created: ")
     db = mysql.connector.connect(user='root', password='', host='localhost', database='SHOP')
@@ -26,13 +26,14 @@ def Create_tb():
         print("Done")
     db.close()
 
-
+#To view items in the table
 def view():
     db = mysql.connector.connect(user='root', password='', host='localhost', database='Shop')
     cur = db.cursor()
     print("1.Search for specific item")
     print("2.View all")
     ch = int(input("Enter your choice: "))
+#To search for the item using item code
     if ch == 1:
         Cd = int(input("Enter item code: "))
         Q = "SELECT * FROM GROCERRIES WHERE ITEMCODE={}".format(Cd)
@@ -42,6 +43,7 @@ def view():
             print(data)
         else:
             print("Item not found")
+#To view all the items in the table
     elif ch == 2:
         Q = "SELECT * FROM GROCERRIES"
         cur.execute(Q)
@@ -52,7 +54,7 @@ def view():
             print("No items found")
     db.close()
 
-
+#To add new items in the table
 def Modify():
     db = mysql.connector.connect(user='root', password='', host='localhost', database='Shop')
     cur = db.cursor()
@@ -69,7 +71,7 @@ def Modify():
         opt = input("Do you want to add more items? (y/n) ")
     db.close()
 
-
+#To execute own queries
 def Query():
     db = mysql.connector.connect(user='root', password='', host='localhost', database='Shop')
     cur = db.cursor()
@@ -79,7 +81,7 @@ def Query():
     print("Query performed successfully")
     db.close()
 
-
+#To add select the required items and calculate the bill 
 def Select():
     db = mysql.connector.connect(user='root', password='', host='localhost', database='Shop')
     cur = db.cursor()
@@ -98,10 +100,11 @@ def Select():
             print("The total price of all the items selected is: ", sum(lis))
     db.close()
 
-
+#The Main Menu
 print("1.Admin")
 print("2.Buyer")
 choice = int(input("Enter your choice: "))
+#The Admin commands
 if choice == 1:
     pasw = input("Enter password: ")
     if pasw == "Password":
@@ -124,6 +127,7 @@ if choice == 1:
             Query()
         else:
             print("Invalid choice")
+#The Buyer options
 elif choice == 2:
     print("1.View available items")
     print("2.Buy items using item code")
